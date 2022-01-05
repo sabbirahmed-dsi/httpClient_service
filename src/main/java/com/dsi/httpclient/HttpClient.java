@@ -2,19 +2,22 @@ package com.dsi.httpclient;
 
 import com.squareup.okhttp.*;
 
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by sabbir on 8/12/16.
  */
 public class HttpClient {
 
+    private static final Integer connectionTime = 90;
     private static final String ERROR_MESSAGE = "{\"errorMessage\":\"Error occurs in httpclient\"}";
 
     public String sendPost(String url, String bodyObject, String headerKey, String headerValue) {
         final MediaType JSON =
                 MediaType.parse("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(connectionTime, TimeUnit.SECONDS);
+        client.setReadTimeout(connectionTime, TimeUnit.SECONDS);
         RequestBody body = RequestBody.create(JSON, bodyObject);
         Request request = new Request.Builder()
                 .url(url)
@@ -29,6 +32,8 @@ public class HttpClient {
         final MediaType JSON =
                 MediaType.parse("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(connectionTime, TimeUnit.SECONDS);
+        client.setReadTimeout(connectionTime, TimeUnit.SECONDS);
         RequestBody body = RequestBody.create(JSON, bodyObject);
         Request request = new Request.Builder()
                 .url(url)
@@ -43,6 +48,8 @@ public class HttpClient {
         final MediaType JSON =
                 MediaType.parse("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(connectionTime, TimeUnit.SECONDS);
+        client.setReadTimeout(connectionTime, TimeUnit.SECONDS);
         RequestBody body = RequestBody.create(JSON, bodyObject);
         Request request = new Request.Builder()
                 .url(url)
@@ -55,6 +62,8 @@ public class HttpClient {
 
     public String getRequest(String url, String headerKey, String headerValue) {
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(connectionTime, TimeUnit.SECONDS);
+        client.setReadTimeout(connectionTime, TimeUnit.SECONDS);
         Request request = new Request.Builder()
                 .url(url)
                 .addHeader(headerKey, headerValue)
@@ -69,7 +78,7 @@ public class HttpClient {
             response = client.newCall(request).execute();
             return response.body().string();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ERROR_MESSAGE;
         }
